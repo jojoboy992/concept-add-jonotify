@@ -125,12 +125,7 @@ function swap() {
 
     // Rebuild order to match new cards array
     order = cards.map((_, i) => i);
-
-    if (cards.length === 0) {
-      titleEl.textContent = "Done!";
-      stopAuto();
-    }
-
+    
     isAnimating = false;
   }, 700); // must match CSS animation
 }

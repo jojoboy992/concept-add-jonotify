@@ -17,7 +17,7 @@ function makeSlot(i, total) {
     x: i * cardDistance,
     y: -i * verticalDistance,
     z: -i * cardDistance * 1.5,
-    zIndex: total - i
+    zIndex: total - i,
   };
 }
 
@@ -38,7 +38,7 @@ function placeNow(card, slot) {
 function updateHeader(index) {
   const card = cards[index];
   titleEl.classList.add("fade");
-  
+
   setTimeout(() => {
     // Update text
     titleEl.textContent = card.dataset.title;
@@ -53,7 +53,6 @@ function updateHeader(index) {
     titleEl.classList.remove("fade");
   }, 200);
 }
-
 
 /* Layout */
 function layout() {
@@ -88,7 +87,8 @@ function stopAuto() {
 
 /* Swap logic */
 function swap() {
-  if (isAnimating || cards.length < 1) return;
+  if (isAnimating || cards.length <= 1) return;
+
   isAnimating = true;
 
   const frontIndex = order[0];
@@ -125,29 +125,27 @@ function swap() {
 
     // Rebuild order to match new cards array
     order = cards.map((_, i) => i);
-    
+
     isAnimating = false;
   }, 700); // must match CSS animation
 }
-
-
 
 /* Click to promote */
 cards.forEach((card, index) => {
   card.addEventListener("click", () => {
     stopAuto();
-    swap(index);
+    swap();
   });
 });
 
 /* Swipe support */
 let startX = null;
 
-container.addEventListener("touchstart", e => {
+container.addEventListener("touchstart", (e) => {
   startX = e.touches[0].clientX;
 });
 
-container.addEventListener("touchend", e => {
+container.addEventListener("touchend", (e) => {
   if (startX === null) return;
   const endX = e.changedTouches[0].clientX;
   if (Math.abs(endX - startX) > 50) {
@@ -163,4 +161,4 @@ container.addEventListener("mouseleave", scheduleNext);
 
 /* Init */
 layout();
-scheduleNext();  // start timed loop
+scheduleNext(); // start timed loop

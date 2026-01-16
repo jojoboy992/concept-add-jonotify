@@ -25,7 +25,7 @@ body {
 .card-info h1 {
   font-size: 48px;
   margin: 0 0 10px;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .card-info h1.fade {
@@ -46,8 +46,9 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 500px;
-  height: 400px;
+
+  width: min(500px, 90vw);
+  height: min(400px, 70vh);
 
   background: #000;
   border: 1px solid #fff;
@@ -60,24 +61,17 @@ body {
 
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  will-change: transform;
+  will-change: transform, opacity;
 
-  /* Spring-like animation */
   transition:
-    transform 0.9s cubic-bezier(0.22, 1.4, 0.36, 1),
-    opacity 0.6s ease,
-    z-index 0.2s linear;
+    transform 0.7s cubic-bezier(0.22, 1.4, 0.36, 1),
+    opacity 0.6s ease;
 }
 
+/* Exit state */
 .card.exit {
   opacity: 0;
-  transform: translate3d(-50%, -140%, -400px) scale(0.8) skewY(6deg);
   pointer-events: none;
-}
-
-/* Drop animation */
-.card.drop {
-  transform: translate3d(-50%, 480px, 0) skewY(6deg);
 }
 
 /* Responsive */
@@ -88,6 +82,6 @@ body {
   }
 
   .card-swap-container {
-    transform: scale(0.8);
+    transform: scale(0.85);
   }
 }

@@ -1,111 +1,110 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Concept Add</title>
-  <link rel="shortcut icon" href="logo.png" type="image/x-icon">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concept Add</title>
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
         background: #0f0f0f;
 
-      font-family: sans-serif;
-    }
+        font-family: sans-serif;
+      }
 
-    iframe {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      display: none;
-    }
+      iframe {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        display: none;
+      }
 
-    iframe.active {
-      display: block;
-    }
+      iframe.active {
+        display: block;
+      }
 
-    /* Play button styles */
-    #play-button {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      color: black;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      border-radius: 10px;
-      z-index: 9999;
-      transition: transform 0.2s, background 0.2s;
-    }
+      /* Play button styles */
+      #play-button {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        color: black;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        border-radius: 10px;
+        z-index: 9999;
+        transition: transform 0.2s, background 0.2s;
+      }
 
-    #play-button:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      background: #ddd;
-    }
-  </style>
-</head>
-<body>
+      #play-button:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+        background: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background audio (start muted) -->
+    <audio id="bg-audio" loop muted>
+      <source src="sexyback-slowed.mp3" type="audio/mpeg" />
+    </audio>
 
-  <!-- Background audio (start muted) -->
-  <audio id="bg-audio" loop muted>
-    <source src="sexyback-slowed.mp3" type="audio/mpeg">
-  </audio>
+    <!-- Play button -->
+    <button id="play-button">Play Concept</button>
 
-  <!-- Play button -->
-  <button id="play-button">Play Concept</button>
+    <!-- Your iframes -->
+    <iframe src="animated text/index.html"></iframe>
+    <iframe src="animated_card/index.html"></iframe>
+    <iframe src="multiple_images_grid/index.html"></iframe>
+    <iframe src="jonotify_text/index.html"></iframe>
+    <iframe src="water_splash/index.html"></iframe>
 
-  <!-- Your iframes -->
-  <iframe src="animated text/index.html"></iframe>
-  <iframe src="animated_card/index.html"></iframe>
-  <iframe src="multiple_images_grid/index.html"></iframe>
-  <iframe src="jonotify_text/index.html"></iframe>
-  <iframe src="water_splash/index.html"></iframe>
+    <script>
+      const playButton = document.getElementById("play-button");
+      const audio = document.getElementById("bg-audio");
+      const iframes = document.querySelectorAll("iframe");
+      const timings = [5500, 10500, 3000, 2500, 5000];
 
-  <script>
-    const playButton = document.getElementById('play-button');
-    const audio = document.getElementById('bg-audio');
-    const iframes = document.querySelectorAll("iframe");
-    const timings = [5500, 10500, 3000, 2500, 5000];
+      function showIframe(index = 0) {
+        iframes.forEach((iframe, i) => {
+          iframe.classList.remove("active");
+          if (i === index) {
+            const src = iframe.src;
+            iframe.src = "";
+            iframe.src = src;
+            iframe.classList.add("active");
+          }
+        });
 
-    function showIframe(index = 0) {
-      iframes.forEach((iframe, i) => {
-        iframe.classList.remove("active");
-        if (i === index) {
-          const src = iframe.src;
-          iframe.src = "";
-          iframe.src = src;
-          iframe.classList.add("active");
-        }
+        setTimeout(() => {
+          showIframe((index + 1) % iframes.length);
+        }, timings[index]);
+      }
+
+      // Start everything when Play button is clicked
+      playButton.addEventListener("click", () => {
+        playButton.style.display = "none"; // hide button
+
+        // Start iframe sequence immediately
+        showIframe();
+
+        // Delay audio by 0.5 seconds
+        setTimeout(() => {
+          audio.muted = false; // unmute
+          audio.volume = 0.5; // optional volume
+          audio.play().catch(() => console.log("Autoplay blocked"));
+        }, 500);
       });
-
-      setTimeout(() => {
-        showIframe((index + 1) % iframes.length);
-      }, timings[index]);
-    }
-
-    // Start everything when Play button is clicked
-    playButton.addEventListener('click', () => {
-      playButton.style.display = 'none'; // hide button
-
-      // Start iframe sequence immediately
-      showIframe();
-
-      // Delay audio by 0.5 seconds
-      setTimeout(() => {
-        audio.muted = false;       // unmute
-        audio.volume = 0.5;        // optional volume
-        audio.play().catch(() => console.log("Autoplay blocked"));
-      }, 300);
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>

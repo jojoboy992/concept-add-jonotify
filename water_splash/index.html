@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Water Splash Text</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f0f0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+.splash-container {
+  position: relative;
+  padding: 80px 100px; /* gives splash room */
+}
+
+.logo_text {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.splash-text {
+  font-size: 80px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+}
+
+.splash-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.drop {
+  fill: #5b4f96;
+  filter: blur(0.6px);
+  transform-origin: center;
+}
+
+/* REAL splash motion */
+@keyframes splashAnim {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  60% {
+    transform:
+      translate(
+        calc(var(--dx) * 0.7),
+        calc(var(--dy) * 0.7)
+      )
+      scale(var(--scale));
+    opacity: 0.9;
+  }
+
+  100% {
+    transform:
+      translate(
+        var(--dx),
+        calc(var(--dy) + 120px)
+      )
+      scale(0.1);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="splash-container">
+  <div class="logo_text">
+    <img src="logo.png" alt="">
+    <h1 class="splash-text">JoNotify</h1>
+  </div>
+  <svg class="splash-svg"></svg>
+</div>
+
+<script>
+const svg = document.querySelector('.splash-svg');
+const container = document.querySelector('.splash-container');
+
+const numDroplets = 80;
+const duration = 1100;
+
+function createSplash() {
+  const rect = container.getBoundingClientRect();
+
+  for (let i = 0; i < numDroplets; i++) {
+    const drop = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'circle'
+    );
+
+    const r = Math.random() * 3.5 + 2;
+    drop.setAttribute('r', r);
+
+    const side = Math.floor(Math.random() * 4);
+
+    let cx = rect.width / 2;
+    let cy = rect.height / 2;
+
+    const baseAngle = {
+      0: Math.PI / 2,
+      1: -Math.PI / 2,
+      2: 0,
+      3: Math.PI
+    }[side];
+
+    const angle = baseAngle + (Math.random() - 0.5) * 1.1;
+    const power = Math.random() * 180 + 140;
+
+    const dx = Math.cos(angle) * power;
+    const dy = Math.sin(angle) * power;
+
+    if (side === 0) cy = 0;
+    if (side === 1) cy = rect.height;
+    if (side === 2) cx = 0;
+    if (side === 3) cx = rect.width;
+
+    cx += (Math.random() - 0.5) * rect.width * 0.5;
+    cy += (Math.random() - 0.5) * rect.height * 0.5;
+
+    drop.setAttribute('cx', cx);
+    drop.setAttribute('cy', cy);
+
+    drop.style.setProperty('--dx', `${dx}px`);
+    drop.style.setProperty('--dy', `${dy}px`);
+    drop.style.setProperty('--scale', Math.random() * 0.5 + 0.3);
+
+    drop.classList.add('drop');
+    svg.appendChild(drop);
+
+    drop.style.animation =
+      `splashAnim ${duration}ms cubic-bezier(.2,.6,.3,1) forwards`;
+
+    setTimeout(() => drop.remove(), duration);
+  }
+}
+
+createSplash();
+</script>
+
+</body>
+</html>

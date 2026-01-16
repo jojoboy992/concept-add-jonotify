@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 60px;
+  gap: 80px;
+}
+
+/* Header text */
+.card-info {
+  max-width: 400px;
+}
+
+.card-info h1 {
+  font-size: 48px;
+  margin: 0 0 10px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.card-info h1.fade {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Card container */
+.card-swap-container {
+  position: relative;
+  width: 500px;
+  height: 400px;
+  perspective: 900px;
+}
+
+/* Cards */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 400px;
+
+  background: #000;
+  border: 1px solid #fff;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+
+  /* Spring-like animation */
+  transition:
+    transform 0.9s cubic-bezier(0.22, 1.4, 0.36, 1),
+    opacity 0.6s ease,
+    z-index 0.2s linear;
+}
+
+.card.exit {
+  opacity: 0;
+  transform: translate3d(-50%, -140%, -400px) scale(0.8) skewY(6deg);
+  pointer-events: none;
+}
+
+/* Drop animation */
+.card.drop {
+  transform: translate3d(-50%, 480px, 0) skewY(6deg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .card-swap-container {
+    transform: scale(0.8);
+  }
+}

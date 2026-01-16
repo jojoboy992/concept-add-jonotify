@@ -1,0 +1,78 @@
+body {
+  font-family: sans-serif;
+  padding: 60px;
+  background: #0f0f0f;
+}
+
+.header_div {
+  display: grid;
+  justify-content: center;
+}
+
+.headline {
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.text-rotate {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.text-line {
+  display: inline-flex; /* shrink-wrap width */
+  align-items: center;
+  width: fit-content; /* hug text */
+  max-width: max-content;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 14px;
+  transition: background-color 0.3s ease, width 0.35s ease; /* smooth growth */
+}
+
+/* ONLY the newest sentence */
+.text-line.active-bg {
+  background: #5b4f96;
+}
+
+.text-rotate-word,
+.text-rotate-space {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.text-rotate-word {
+  display: inline-block;
+  position: relative;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+/* background ONLY for new pops */
+.pop-bg {
+  background: #5b4f96;
+  animation: fluidBounce1 0.9s cubic-bezier(0.22, 1.1, 0.36, 1) forwards,
+    popBgFade 0.9s ease-out forwards;
+}
+
+.text-rotate-space {
+  white-space: pre;
+}
+
+/* 🌊 ONE fluid bounce, no fly-in */
+@keyframes fluidBounce1 {
+  0% {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
